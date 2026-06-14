@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kisah & Filosofi | Abadi Nanjaya</title>
+    <style>
+        :root {
+            --primary: #0c6037; 
+            --primary-light: #148f54;
+            --bg-base: #070A08;
+            --bg-surface: #0E1611;
+            --text-main: #F4EFEA;
+            --text-muted: #A3AFA8;
+            --accent-warm: #C5A059;
+            --font-serif: 'Playfair Display', 'Georgia', serif;
+            --font-sans: 'Inter', sans-serif;
+            --radius-md: 8px;
+            --radius-lg: 16px;
+            --transition-smooth: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: var(--font-sans); background-color: var(--bg-base); color: var(--text-main); line-height: 1.8; overflow-x: hidden; padding-top: 7rem; }
+        .container { width: 100%; max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; position: relative; z-index: 5; }
+        a { text-decoration: none; color: inherit; }
+
+        /* === GLOBAL NAVBAR === */
+        .navbar {
+            position: fixed; top: 0; left: 0; width: 100%; padding: 1.5rem 0;
+            background: rgba(7, 10, 8, 0.92); backdrop-filter: blur(12px);
+            z-index: 1000; border-bottom: 1px solid rgba(197, 160, 89, 0.1);
+        }
+        .nav-container { display: flex; justify-content: space-between; align-items: center; }
+        .brand-logo { font-family: var(--font-serif); font-size: 1.6rem; font-weight: 700; color: var(--accent-warm); }
+        .nav-links { display: flex; gap: 2rem; }
+        .nav-links a { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); font-weight: 500; transition: var(--transition-smooth); }
+        .nav-links a:hover, .nav-links a.active { color: var(--accent-warm); }
+
+        /* === WATERMARK ORNAMEN NUSANTARA === */
+        .bg-gunungan {
+            position: fixed; top: 15%; left: 50%; transform: translateX(-50%);
+            width: 70vw; height: 80vh; opacity: 0.03; pointer-events: none; z-index: 1;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 150"><path d="M50 10 L90 110 L70 110 L70 140 L30 140 L30 110 L10 110 Z" fill="none" stroke="%23C5A059" stroke-width="0.5"/><circle cx="50" cy="70" r="15" fill="none" stroke="%23C5A059" stroke-width="0.5"/></svg>');
+            background-size: contain; background-repeat: no-repeat; background-position: center;
+        }
+
+        /* === EDITORIAL LAYOUT === */
+        .chronicle-hero { text-align: center; padding: 4rem 0 3rem; }
+        .sub-vintage { font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3em; color: var(--primary-light); display: block; margin-bottom: 1rem; }
+        .chronicle-hero h1 { font-family: var(--font-serif); font-size: clamp(2.5rem, 6vw, 4.2rem); color: var(--accent-warm); }
+        
+        .story-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 4.5rem; margin-bottom: 4rem; align-items: start; }
+        h3 { font-family: var(--font-serif); font-size: 1.8rem; margin: 2rem 0 1rem; color: var(--accent-warm); border-bottom: 1px solid rgba(197, 160, 89, 0.1); padding-bottom: 0.5rem; }
+        p { margin-bottom: 1.5rem; color: var(--text-muted); text-align: justify; }
+
+        .quote-box { background-color: var(--bg-surface); border-left: 3px solid var(--accent-warm); padding: 2.5rem; border-radius: 0 var(--radius-lg) var(--radius-lg) 0; margin: 3rem 0; }
+        .quote-box p { font-family: var(--font-serif); font-style: italic; font-size: 1.3rem; color: var(--text-main); margin: 0; }
+
+        .art-frame { border: 1px solid rgba(197, 160, 89, 0.2); padding: 1rem; background: var(--bg-surface); border-radius: var(--radius-md); transform: rotate(1deg); transition: var(--transition-smooth); }
+        .art-frame:hover { transform: rotate(0deg) scale(1.02); border-color: var(--accent-warm); }
+        .art-frame img { width: 100%; height: auto; border-radius: 4px; filter: sepia(15%); }
+        .art-caption { font-family: var(--font-serif); font-size: 0.85rem; text-align: center; margin-top: 1rem; color: var(--accent-warm); font-style: italic; }
+
+        /* === STYLE TOGGLE CERITA (READ MORE) === */
+        .cerita-lengkap {
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: max-height 0.8s ease-out, opacity 0.6s ease;
+        }
+        .cerita-lengkap.buka {
+            max-height: 2000px; /* Angka besar agar teks penampung tidak terpotong */
+            opacity: 1;
+        }
+        .btn-toggle-cerita {
+            background: transparent;
+            border: 1px solid var(--accent-warm);
+            color: var(--accent-warm);
+            padding: 0.8rem 2rem;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            border-radius: var(--radius-md);
+            margin-top: 1.5rem;
+            transition: var(--transition-smooth);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .btn-toggle-cerita:hover {
+            background: var(--accent-warm);
+            color: var(--bg-base);
+        }
+
+        /* === FILOSOFI TRIAD PILAR === */
+        .philosophy-section { background-color: var(--bg-surface); padding: 6rem 0; margin-bottom: 6rem; border-y: 1px solid rgba(197, 160, 89, 0.05); }
+        .triad-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2.5rem; margin-top: 4rem; }
+        .triad-card { background: var(--bg-base); padding: 3rem 2rem; border-radius: var(--radius-md); border: 1px solid rgba(255,255,255,0.02); transition: var(--transition-smooth); position: relative; }
+        .triad-card:hover { transform: translateY(-5px); border-color: rgba(197, 160, 89, 0.15); }
+        .triad-number { font-family: var(--font-serif); font-size: 2.5rem; color: rgba(197, 160, 89, 0.15); font-weight: 700; display: block; margin-bottom: 1rem; }
+        .triad-card h4 { font-family: var(--font-serif); color: var(--accent-warm); font-size: 1.25rem; margin-bottom: 1rem; }
+
+        /* === MOTO BANNER === */
+        .moto-banner { text-align: center; padding: 7rem 2rem; background: linear-gradient(rgba(7,10,8,0.85), rgba(7,10,8,0.95)), url('gmb/Batikz.jpeg'); background-size: cover; background-position: center; border-radius: var(--radius-lg); border: 1px solid rgba(197, 160, 89, 0.1); margin-bottom: 6rem; }
+        .moto-banner h2 { font-family: var(--font-serif); font-size: clamp(1.8rem, 4vw, 3rem); font-style: italic; font-weight: 400; margin-bottom: 1.5rem; }
+
+        footer { padding: 4rem 0 2rem; border-top: 1px solid rgba(255,255,255,0.05); text-align: center; color: rgba(255,255,255,0.3); font-size: 0.85rem; }
+        .reveal { opacity: 0; transform: translateY(40px); transition: var(--transition-smooth); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        @media (max-width: 850px) { .story-grid { grid-template-columns: 1fr; gap: 3rem; } }
+    </style>
+</head>
+<body>
+
+    <div class="bg-gunungan"></div>
+
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="brand-logo">Abadi Nanjaya</a>
+            <div class="nav-links">
+                <a href="index.html">Beranda</a>
+                <a href="koleksi.html">Katalog Koleksi</a>
+                <a href="tentang.html" class="active">Cerita Kami</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="container chronicle-hero reveal">
+        <span class="sub-vintage">Arsip Riwayat & Kebudayaan</span>
+        <h1>Asal-Usul Abadi Nanjaya</h1>
+        <div style="width: 60px; height: 1px; background-color: var(--accent-warm); margin: 2rem auto 0;"></div>
+    </header>
+
+    <main class="container">
+        <section class="story-grid">
+            <div class="reveal">
+                <h3>Latar Belakang</h3>
+                <p>Di tengah pesatnya perkembangan zaman, banyak generasi muda mulai mengenal budaya Nusantara hanya melalui buku pelajaran atau media sosial. Kekayaan motif, cerita rakyat, filosofi adat, dan karya seni tradisional perlahan mulai terlupakan oleh sebagian masyarakat. Dari kegelisahan inilah lahir sebuah perusahaan yang kemudian dikenal dengan nama <strong>Abadi Nanjaya</strong>.</p>
+                <p>Nama <strong>Abadi Nanjaya</strong> memiliki makna yang mendalam. Kata <i>Abadi</i> melambangkan harapan agar budaya dan nilai luhur Nusantara tetap hidup sepanjang masa. Sementara <i>Nanjaya</i> berasal dari gabungan kata yang bermakna kemenangan dan kejayaan, sebagai simbol cita-cita untuk mengangkat kembali kebanggaan terhadap warisan budaya Indonesia. Dengan demikian, Abadi Nanjaya berarti "kejayaan budaya yang terus hidup dan tidak pernah pudar."</p>
+                
+                <div class="quote-box">
+                    <p>"Bagaimana jika budaya Nusantara dapat hadir dalam bentuk yang modern, keren, dan bisa digunakan setiap hari?"</p>
+                </div>
+
+                <h3>Awal Berdiri (2020)</h3>
+                <p>Kisah Abadi Nanjaya dimulai pada tahun 2020. Pendiri perusahaan, seorang pemuda bernama <strong>Raka Nanjaya</strong>, memiliki kecintaan besar terhadap budaya Indonesia sejak kecil. Ia tumbuh di lingkungan yang kaya akan tradisi. Kakeknya adalah seorang pengrajin ukiran kayu, sementara neneknya sering menceritakan legenda-legenda dari berbagai daerah di Nusantara.</p>
+                
+                <!-- TOMBOL READ MORE INTERAKTIF -->
+                <button class="btn-toggle-cerita" id="btnCerita">
+                    <span id="textTombol">Baca Cerita Selengkapnya</span> <span id="panahTombol">&darr;</span>
+                </button>
+
+                <!-- KONTEN YANG DISEMBUNYIKAN & AKAN TERBUKA SAAT DIKLIK -->
+                <div class="cerita-lengkap" id="kontenLengkap">
+                    <p style="margin-top: 1.5rem;">Ketika menempuh pendidikan di kota besar, Raka menyadari bahwa banyak anak muda lebih mengenal budaya luar dibandingkan budaya daerahnya sendiri. Ia melihat bahwa produk-produk bertema budaya sering kali dianggap kuno dan kurang menarik bagi generasi muda. Pertanyaan sederhana tersebut menjadi titik awal lahirnya Abadi Nanjaya.</p>
+
+                    <h3>Tantangan & Perjalanan Awal</h3>
+                    <p>Memulai sebuah pergerakan budaya di era digital tentu tidak semudah membalikkan telapak tangan. Pada awal pendiriannya di tahun 2020, Abadi Nanjaya sempat mengalami kesulitan dalam menemukan formula yang pas antara kesakralan motif tradisional dan fungsionalitas busana modern. Raka harus keluar masuk desa adat untuk meminta izin dan memastikan makna filosofis dari motif yang digunakan tidak menyalahi aturan tradisi.</p>
+                    <p>Modal yang terbatas juga memaksa tim kecil ini bergerak secara mandiri (*bootstrapping*). Produksi pertama mereka hanyalah 12 potong kemeja dengan aplikasi kain tenun sisa, yang dipasarkan dari mulut ke mulut serta melalui platform digital sederhana. Namun, respons tak terduga datang dari komunitas anak muda kreatif yang haus akan produk beridentitas kuat.</p>
+
+                    <h3>Masa Keemasan & Ekspansi</h3>
+                    <p>Memasuki pertengahan tahun 2023, Abadi Nanjaya berhasil melakukan lompatan besar. Dengan mengintegrasikan sistem rantai pasok modern bersama komunitas penenun lokal di pelosok daerah, kualitas bahan yang dihasilkan meningkat drastis tanpa menghilangkan proses otentik buatan tangan (*handmade*).</p>
+                    <p>Produk mereka mulai dilirik oleh figur publik dan desainer kontemporer nasional. Gaya desain yang berani menggabungkan siluet *streetwear* longgar (*oversized*) dengan goresan motif megah seperti Parang Klasik dan Mega Mendung, membuat produk Abadi Nanjaya bertransformasi menjadi simbol status baru bagi generasi muda yang bangga akan akar budayanya.</p>
+                </div>
+            </div>
+
+            <!-- Sticky Visual Layout -->
+            <div class="reveal" style="position: sticky; top: 8rem;">
+                <div class="art-frame">
+                    <img src="gmb/Garuda1.png" alt="Seni Abadi Nanjaya">
+                    <div class="art-caption">Manifestasi Estetika Nusantara Klasik Kontemporer</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PILAR FILOSOFI -->
+        <section class="philosophy-section reveal">
+            <h2 style="text-align: center; font-family: var(--font-serif); color: var(--accent-warm);">Filosofi Perusahaan</h2>
+            <div class="triad-grid">
+                <div class="triad-card"><span class="triad-number">01</span><h4>Melestarikan Budaya</h4><p>Setiap produk harus membawa unsur budaya Indonesia yang autentik dan menghormati asal-usulnya.</p></div>
+                <div class="triad-card"><span class="triad-number">02</span><h4>Menginspirasi Generasi Muda</h4><p>Budaya tidak harus terlihat kuno. Dengan desain yang kreatif, budaya dapat menjadi bagian dari gaya hidup modern.</p></div>
+                <div class="triad-card"><span class="triad-number">03</span><h4>Memberdayakan Pengrajin Lokal</h4><p>Perusahaan bekerja sama dengan berbagai pengrajin dari berbagai daerah untuk menghasilkan produk berkualitas sekaligus menyokong ekonomi lokal.</p></div>
+            </div>
+        </section>
+
+        <!-- MOTO BANNER -->
+        <section class="moto-banner reveal">
+            <h2>"Merawat Warisan, Menginspirasi Masa Depan."</h2>
+            <p style="max-width: 750px; margin: 2rem auto 0; font-size: 1.05rem; color: var(--text-muted);">Kini, Abadi Nanjaya bercita-cita membawa kekayaan Nusantara ke panggung dunia melalui produk-produk kreatif yang menggabungkan nilai tradisional dan desain modern. Budaya Nusantara bukan sekadar peninggalan masa lalu, melainkan identitas yang harus dijaga, dibanggakan, dan diwariskan secara turun-temurun.</p>
+        </section>
+    </main>
+
+    <footer><p>&copy; 2026 Abadi Nanjaya. Merangkai Nusantara. Seluruh Hak Cipta Dilindungi.</p></footer>
+
+    <!-- JAVASCRIPT UNTUK AKSI TOMBOL BACA SELENGKAPNYA -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Logika Reveal Animasi Scroll
+            const reveals = document.querySelectorAll('.reveal');
+            const obs = new IntersectionObserver((entries) => {
+                entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('active'); } });
+            }, { threshold: 0.05 });
+            reveals.forEach(r => obs.observe(r));
+
+            // Logika Tombol Baca Selengkapnya
+            const btnCerita = document.getElementById('btnCerita');
+            const kontenLengkap = document.getElementById('kontenLengkap');
+            const textTombol = document.getElementById('textTombol');
+            const panahTombol = document.getElementById('panahTombol');
+
+            btnCerita.addEventListener('click', () => {
+                kontenLengkap.classList.toggle('buka');
+                
+                if(kontenLengkap.classList.contains('buka')) {
+                    textTombol.innerText = "Sembunyikan Cerita";
+                    panahTombol.innerHTML = "&uarr;";
+                } else {
+                    textTombol.innerText = "Baca Cerita Selengkapnya";
+                    panahTombol.innerHTML = "&darr;";
+                    // Opsional: Scroll otomatis balik ke atas tombol setelah disembunyikan
+                    btnCerita.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
