@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cara Pemesanan | Abadi Nanjaya</title>
+    <style>
+        /* === COHESIVE SYSTEM VARIABLES === */
+        :root {
+            --primary-light: #148f54;
+            --bg-base: #070A08;
+            --bg-surface: #0E1611;
+            --text-main: #F4EFEA;
+            --text-muted: #A3AFA8;
+            --accent-warm: #C5A059;
+            --font-serif: 'Playfair Display', 'Georgia', serif;
+            --font-sans: 'Inter', sans-serif;
+            --radius-sm: 4px;
+            --radius-md: 8px;
+            --transition-smooth: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body { font-family: var(--font-sans); background-color: var(--bg-base); color: var(--text-main); line-height: 1.7; overflow-x: hidden; }
+        .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; position: relative; }
+        a { text-decoration: none; color: inherit; }
+
+        /* === GLOBAL NAVBAR === */
+        .navbar {
+            position: fixed; top: 0; left: 0; width: 100%; padding: 1.2rem 0;
+            background: rgba(7, 10, 8, 0.95); backdrop-filter: blur(12px);
+            z-index: 1000; border-bottom: 1px solid rgba(197, 160, 89, 0.08);
+        }
+        .nav-container { display: flex; justify-content: space-between; align-items: center; }
+        .brand-logo { font-family: var(--font-serif); font-size: 1.6rem; font-weight: 700; color: var(--accent-warm); letter-spacing: 0.05em; }
+        .nav-menu { display: flex; align-items: center; gap: 2.5rem; }
+        .nav-links { display: flex; gap: 2rem; }
+        .nav-links a { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); font-weight: 500; transition: var(--transition-smooth); }
+        .nav-links a:hover { color: var(--accent-warm); }
+
+        /* === HEADER PAGE === */
+        .page-header {
+            padding: 12rem 0 4rem;
+            text-align: center;
+            background: linear-gradient(rgba(7,10,8,0.8), var(--bg-base)), url('gmb/Batikz.jpeg') center/cover fixed;
+        }
+        .page-header h1 { font-family: var(--font-serif); font-size: 3rem; color: var(--accent-warm); margin-bottom: 1rem; }
+        .page-header p { color: var(--text-muted); font-size: 1rem; letter-spacing: 0.1em; text-transform: uppercase; }
+
+        /* === STEPS SECTION === */
+        .steps-section { padding: 5rem 0 8rem; }
+        .steps-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2.5rem; margin-top: 3rem; }
+        .step-card { background: var(--bg-surface); padding: 2.5rem; border-radius: var(--radius-md); border: 1px solid rgba(255,255,255,0.02); transition: var(--transition-smooth); position: relative; overflow: hidden; }
+        .step-card:hover { transform: translateY(-5px); border-color: rgba(197, 160, 89, 0.2); }
+        .step-number { font-family: var(--font-serif); font-size: 3.5rem; color: rgba(197, 160, 89, 0.1); position: absolute; top: 1rem; right: 1.5rem; font-weight: 700; line-height: 1; }
+        .step-card h3 { font-family: var(--font-serif); font-size: 1.4rem; color: var(--text-main); margin-bottom: 1rem; position: relative; z-index: 2; }
+        .step-card p { color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; }
+
+        /* === HELP BOX === */
+        .help-box { max-width: 700px; margin: 5rem auto 0; background: rgba(20, 143, 84, 0.05); border: 1px solid rgba(20, 143, 84, 0.2); border-radius: var(--radius-md); padding: 2.5rem; text-align: center; }
+        .help-box h4 { font-family: var(--font-serif); color: var(--accent-warm); font-size: 1.3rem; margin-bottom: 0.5rem; }
+        .help-box p { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem; }
+        .btn-wa { display: inline-block; padding: 0.8rem 2rem; background: #25d366; color: #fff; font-weight: 600; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; border-radius: var(--radius-sm); transition: var(--transition-smooth); }
+        .btn-wa:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(37,211,102,0.3); }
+
+        /* === FOOTER === */
+        footer { padding: 5rem 0 2rem; border-top: 1px solid rgba(197, 160, 89, 0.08); background: #040605; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 3rem; text-align: left; margin-bottom: 4rem; }
+        .footer-col h4 { font-family: var(--font-serif); color: var(--accent-warm); margin-bottom: 1.5rem; font-size: 1.1rem; letter-spacing: 0.05em; }
+        .footer-col p, .footer-col li { color: var(--text-muted); font-size: 0.9rem; list-style: none; margin-bottom: 0.8rem; }
+        .trust-logos { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 1rem; opacity: 0.6; }
+        .trust-badge { background: rgba(255,255,255,0.05); padding: 4px 10px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; color: var(--text-main); border: 1px solid rgba(255,255,255,0.05); }
+        .copyright { text-align: center; color: rgba(255,255,255,0.2); font-size: 0.85rem; border-top: 1px solid rgba(255,255,255,0.03); padding-top: 2rem; }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR NAVIGATION -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="brand-logo">Abadi Nanjaya</a>
+            <div class="nav-menu">
+                <div class="nav-links">
+                    <a href="index.html">Beranda</a>
+                    <a href="koleksi.html">Katalog Koleksi</a>
+                    <a href="tentang.html">Cerita Kami</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HEADER PAGE -->
+    <header class="page-header">
+        <div class="container">
+            <h1>Panduan Pemesanan</h1>
+            <p>Langkah Mudah Memiliki Mahakarya Nusantara</p>
+        </div>
+    </header>
+
+    <!-- STEPS CONTENT -->
+    <main class="steps-section">
+        <div class="container">
+            <div class="steps-grid">
+                <!-- STEP 1 -->
+                <div class="step-card">
+                    <div class="step-number">01</div>
+                    <h3>Pilih Mahakarya</h3>
+                    <p>Jelajahi halaman "Katalog Koleksi" kami. Pilih produk eksklusif yang memikat hati Anda, lalu klik tombol <strong>Tambah Ke Keranjang</strong>.</p>
+                </div>
+
+                <!-- STEP 2 -->
+                <div class="step-card">
+                    <div class="step-number">02</div>
+                    <h3>Periksa Keranjang</h3>
+                    <p>Klik ikon keranjang belanja di pojok kanan atas untuk meninjau kembali daftar pesanan Anda. Jika sudah sesuai, klik <strong>Lanjutkan ke Pembayaran</strong>.</p>
+                </div>
+
+                <!-- STEP 3 -->
+                <div class="step-card">
+                    <div class="step-number">03</div>
+                    <h3>Isi Data & Bayar</h3>
+                    <p>Isi alamat pengiriman dengan lengkap guna menghindari kendala logistik. Selesaikan pembayaran dengan aman melalui metode pembayaran resmi yang tersedia.</p>
+                </div>
+
+                <!-- STEP 4 -->
+                <div class="step-card">
+                    <div class="step-number">04</div>
+                    <h3>Konfirmasi & Kirim</h3>
+                    <p>Sistem kami akan memverifikasi pembayaran secara otomatis. Tim kurir rekanan kami akan segera mengantarkan pesanan Anda langsung ke depan pintu rumah.</p>
+                </div>
+            </div>
+
+            <!-- HELP REGION -->
+            <div class="help-box">
+                <h4>Mengalami Kendala Saat Memesan?</h4>
+                <p>Tim Customer concierge kami siap melayani dan membantu proses reservasi manual Anda secara personal via WhatsApp.</p>
+                <a href="https://wa.me/6281234567890?text=Halo%20Abadi%20Nanjaya,%20saya%20butuh%20bantuan%20untuk%20proses%20pemesanan." class="btn-wa" target="_blank">Hubungi CS via WhatsApp</a>
+            </div>
+        </div>
+    </main>
+
+    <!-- FOOTER WITH TRUST SIGNALS -->
+    <footer>
+        <div class="container footer-grid">
+            <div class="footer-col">
+                <h4>Abadi Nanjaya</h4>
+                <p>Membawa kemegahan seni luhur Nusantara ke panggung mode modern kelas dunia.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Layanan Pelanggan</h4>
+                <ul>
+                    <li><a href="carapesan.html">Cara Pemesanan</a></li>
+                    <li><a href="policy.html">Kebijakan Pengembalian (Retur)</a></li>
+                    <li><a href="#">Pelacakan Pengiriman</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Metode Pembayaran & Logistik</h4>
+                <p>Didukung oleh infrastruktur aman & terpercaya:</p>
+                <div class="trust-logos">
+                    <span class="trust-badge">BCA VA</span>
+                    <span class="trust-badge">QRIS</span>
+                    <span class="trust-badge">Mandiri</span>
+                    <span class="trust-badge">GoPay</span>
+                    <span class="trust-badge">JNE J&T</span>
+                    <span class="trust-badge">Paxel</span>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2026 Abadi Nanjaya. Merangkai Nusantara. Seluruh Hak Cipta Dilindungi.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
